@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loginCheck(View view){
-        String query = "SELECT email, password FROM registeredUsers WHERE email=?";
+        String query = "SELECT firstname, email, password FROM registeredUsers WHERE email=?";
         String[] selectionArgs = {String.valueOf(emailUser.getText())};
 
         Cursor cursor = db.rawQuery(query, selectionArgs);
@@ -78,8 +79,12 @@ public class MainActivity extends AppCompatActivity {
             passwordUser.setText("");
         }else{
             cursor.moveToFirst();
-            if(cursor.getString(1).equals(String.valueOf(passwordUser.getText()))){
+            if(cursor.getString(2).equals(String.valueOf(passwordUser.getText()))){
                 Toast.makeText(MainActivity.this, "Successfully logged in!", Toast.LENGTH_SHORT).show();
+                Intent afterLoginActivity = new Intent(MainActivity.this, adminPanel.class);
+                String nameLoggedIn = cursor.getString(0);
+                afterLoginActivity.putExtra("first name", nameLoggedIn);
+                startActivity(afterLoginActivity);
             }else{
                 Toast.makeText(MainActivity.this, "Wrong password!", Toast.LENGTH_SHORT).show();
                 passwordUser.setText("");
