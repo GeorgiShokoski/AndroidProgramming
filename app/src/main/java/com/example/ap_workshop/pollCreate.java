@@ -6,9 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -17,11 +28,20 @@ public class pollCreate extends AppCompatActivity
 
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle drawerToggle;
+    public ViewGroup layout;
+    public Button optionBtn;
+    public int cnt;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll_create);
+
+        optionBtn = findViewById(R.id.optionBtn);
+        layout = findViewById(R.id.layoutAdd);
+
+        cnt = 0;
 
         drawerLayout = findViewById(R.id.drawerLayout);
         drawerToggle = new ActionBarDrawerToggle(
@@ -65,5 +85,29 @@ public class pollCreate extends AppCompatActivity
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void addNewOption(View view){
+        cnt++;
+        if(cnt <= 4) {
+            EditText textEdit = new EditText(getApplicationContext());
+            textEdit.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            textEdit.setInputType(InputType.TYPE_CLASS_TEXT);
+            textEdit.setHint("Option");
+            textEdit.setId(View.generateViewId());
+            textEdit.setPadding(100, 15, 0, 15);
+            layout.addView(textEdit);
+        }else{
+            Toast.makeText(pollCreate.this, "You can only add a maximum of four options!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }
