@@ -17,10 +17,11 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 
 public class adminPanel extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
     TextView textView;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    public String firstName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +46,8 @@ public class adminPanel extends AppCompatActivity
         navView.setNavigationItemSelectedListener(this);
 
         Intent getIntent = getIntent();
-        String firstName = getIntent.getStringExtra("first name");
+        firstName = getIntent.getStringExtra("first name");
 
-        textView = findViewById(R.id.getFirstNameText);
-        textView.setText(firstName);
     }
 
     @Override
@@ -61,6 +60,7 @@ public class adminPanel extends AppCompatActivity
 
     public void createPoll(View view){
         Intent goToPoll = new Intent(adminPanel.this, pollCreate.class);
+        goToPoll.putExtra("author_name", firstName);
         startActivity(goToPoll);
     }
 

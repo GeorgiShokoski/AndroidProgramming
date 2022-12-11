@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         ss.setSpan(clickableText, 29, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        regNavigation.setTextColor(Color.parseColor("#FF5722"));
         regNavigation.setText(ss);
         regNavigation.setMovementMethod(LinkMovementMethod.getInstance());
     }

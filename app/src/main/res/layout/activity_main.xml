@@ -13,7 +13,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:backgroundTint="#FFCCBC"
+        android:background="#FFCCBC">
 
         <TextView
             android:id="@+id/registrationPage"
@@ -21,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="64dp"
             android:layout_marginBottom="228dp"
+            android:textColor="@color/white"
             android:text="Don't have an account? Click here to register!"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -33,7 +36,7 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="164dp"
             android:layout_marginBottom="276dp"
-            android:backgroundTint="#71E8CC"
+            android:backgroundTint="#FF5722"
             android:onClick="loginCheck"
             android:text="Login"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +52,7 @@
             android:layout_marginTop="44dp"
             android:layout_marginEnd="108dp"
             android:layout_marginBottom="360dp"
-            android:background="#71E8CC"
+            android:background="#FF5722"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword"
@@ -58,7 +61,7 @@
             android:paddingBottom="15dp"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColorHint="#090505"
+            android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/emailUser"
             app:layout_constraintHorizontal_bias="0.465"
@@ -89,7 +92,7 @@
             android:layout_marginTop="41dp"
             android:layout_marginEnd="104dp"
             android:layout_marginBottom="448dp"
-            android:background="#71E8CC"
+            android:background="#FF5722"
             android:ems="10"
             android:hint="E-Mail Address"
             android:inputType="textEmailAddress"
@@ -97,7 +100,7 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:singleLine="true"
-            android:textColorHint="#090505"
+            android:textColorHint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
