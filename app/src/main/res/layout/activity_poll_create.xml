@@ -27,70 +27,146 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="80dp"
+            android:layout_marginTop="61dp"
             android:layout_marginEnd="80dp"
             android:layout_marginBottom="30dp"
             android:text="Create a poll"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             app:layout_constraintBottom_toTopOf="@+id/questionTextEdit"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/questionTextEdit"
             android:layout_width="371dp"
             android:layout_height="49dp"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="25dp"
-            android:layout_marginBottom="39dp"
             android:background="#FFFFFF"
             android:backgroundTint="#FF5722"
             android:ems="10"
             android:hint="Ask a question"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
             android:inputType="textPersonName"
             android:paddingLeft="15dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:singleLine="false"
-            app:layout_constraintBottom_toTopOf="@+id/layoutAdd"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/layoutAdd"
-            android:layout_width="415dp"
-            android:layout_height="392dp"
-            android:layout_marginBottom="96dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/optionBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="27dp"
-                android:layout_marginEnd="27dp"
-                android:backgroundTint="#FF5722"
-                android:onClick="addNewOption"
-                android:text="Add option" />
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <Button
             android:id="@+id/postPoll"
             android:layout_width="104dp"
             android:layout_height="55dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginStart="287dp"
+            android:layout_marginTop="92dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="50dp"
             android:backgroundTint="#FF5722"
-            android:text="Post"
             android:onClick="sendNotification"
+            android:text="Post"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutAdd" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/option4" />
+
+        <Button
+            android:id="@+id/optionBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="100dp"
+            android:onClick="addNewOption"
+            android:text="Add Option"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/questionTextEdit" />
+
+        <EditText
+            android:id="@+id/option1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:visibility="invisible"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="100dp"
+            android:background="#FF5722"
+            android:textColorHint="@color/white"
+            android:ems="10"
+            android:hint="Option"
+            android:inputType="textPersonName"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/optionBtn" />
+
+        <EditText
+            android:id="@+id/option2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:textColorHint="@color/white"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="15dp"
+            android:background="#FF5722"
+            android:layout_marginEnd="100dp"
+            android:ems="10"
+            android:hint="Option"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/option1" />
+
+        <EditText
+            android:id="@+id/option3"
+            android:layout_width="wrap_content"
+            android:visibility="invisible"
+            android:textColorHint="@color/white"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginStart="100dp"
+            android:background="#FF5722"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="100dp"
+            android:ems="10"
+            android:hint="Option"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/option2" />
+
+        <EditText
+            android:id="@+id/option4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColorHint="@color/white"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="15dp"
+            android:background="#FF5722"
+            android:layout_marginEnd="100dp"
+            android:ems="10"
+            android:hint="Option"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/option3" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

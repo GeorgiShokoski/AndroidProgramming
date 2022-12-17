@@ -14,6 +14,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +33,12 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+
 public class pollCreate extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -43,6 +51,10 @@ public class pollCreate extends AppCompatActivity
     public String[] textEditIds;
     public int arrMove;
     public String authorName;
+    public optionDBHandler optiondbHandler;
+    public pollDBHandler polldbHandler;
+    public SQLiteDatabase db;
+
 
     boolean isEmpty(EditText text) {
         CharSequence str = text.getText().toString();
@@ -58,12 +70,11 @@ public class pollCreate extends AppCompatActivity
         createNotificationChannel();
 
         optionBtn = findViewById(R.id.optionBtn);
-        layout = findViewById(R.id.layoutAdd);
         question = findViewById(R.id.questionTextEdit);
 
         cnt = 0;
         textEditIds = new String[4];
-        int arrMove = 0;
+        arrMove = 0;
 
         drawerLayout = findViewById(R.id.drawerLayout);
         drawerToggle = new ActionBarDrawerToggle(
@@ -84,6 +95,12 @@ public class pollCreate extends AppCompatActivity
 
         Intent getAuthorName = getIntent();
         authorName = getAuthorName.getStringExtra("author name");
+
+
+
+        optiondbHandler = new optionDBHandler(pollCreate.this);
+        polldbHandler = new pollDBHandler(pollCreate.this);
+        db = polldbHandler.getReadableDatabase();
     }
 
     @Override
@@ -115,20 +132,22 @@ public class pollCreate extends AppCompatActivity
     public void addNewOption(View view){
         cnt++;
         if(cnt <= 4) {
-            EditText textEdit = new EditText(getApplicationContext());
-            LinearLayout.LayoutParams params = (new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            params.setMargins(100,30,100,30);
-            textEdit.setLayoutParams(params);
-            textEdit.setInputType(InputType.TYPE_CLASS_TEXT);
-            textEdit.setHint("Option");
-            textEdit.setTextColor(Color.parseColor("white"));
-            textEdit.setHintTextColor(Color.parseColor("white"));
-            textEdit.setId(View.generateViewId());
-            textEdit.setPadding(50, 15, 100, 15);
-            textEdit.setBackgroundColor(Color.parseColor("#FF5722"));
-            layout.addView(textEdit);
-            textEditIds[arrMove] = textEdit.getText().toString();
-            arrMove++;
+            if (cnt == 1){
+                EditText option1 = findViewById(R.id.option1);
+                option1.setVisibility(option1.VISIBLE);
+            }
+            if (cnt == 2){
+                EditText option2 = findViewById(R.id.option2);
+                option2.setVisibility(option2.VISIBLE);
+            }
+            if (cnt == 3){
+                EditText option3 = findViewById(R.id.option3);
+                option3.setVisibility(option3.VISIBLE);
+            }
+            if (cnt == 4){
+                EditText option4 = findViewById(R.id.option4);
+                option4.setVisibility(option4.VISIBLE);
+            }
         }else{
             Toast.makeText(pollCreate.this, "You can only add a maximum of four options!", Toast.LENGTH_SHORT).show();
         }
@@ -143,13 +162,50 @@ public class pollCreate extends AppCompatActivity
         return super.dispatchTouchEvent(ev);
     }
 
-    public void sendNotification(View view){
-        if((!isEmpty(question)) && (cnt >= 2)) {
+    public void sendNotification(View view) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = dateFormat.format(calendar.getTime());
+
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.add(Calendar.HOUR_OF_DAY, 1);  // Add 1 hour
+        SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTimePlusOneHour = dateFormat1.format(calendar1.getTime());
+
+        polldbHandler.addNewPoll(question.getText().toString(), currentTime, currentTimePlusOneHour);
+
+        String query = "SELECT MAX(id) FROM polls";
+
+        
+        Cursor cursor = db.rawQuery(query, null);
+            cursor.moveToFirst();
+            int pollId = cursor.getInt(0);
+
+        for (int j = 0; j < cnt; j++) {
+            if (j == 1){
+                EditText getOption1 = findViewById(R.id.option1);
+                String option1 = getOption1.getText().toString();
+                optiondbHandler.addNewOption(option1, pollId);
+            }
+            if (j == 2){
+                EditText getOption2 = findViewById(R.id.option2);
+                String option2 = getOption2.getText().toString();
+                optiondbHandler.addNewOption(option2, pollId);
+            }
+            if (j == 3){
+                EditText getOption3 = findViewById(R.id.option3);
+                String option3 = getOption3.getText().toString();
+                optiondbHandler.addNewOption(option3, pollId);
+            }
+            if (j == 4){
+                EditText getOption4 = findViewById(R.id.option4);
+                String option4 = getOption4.getText().toString();
+                optiondbHandler.addNewOption(option4, pollId);
+            }
+        }
+
+        if ((!isEmpty(question)) && (cnt >= 2)) {
             Intent goToPolls = new Intent(pollCreate.this, adminPanel.class);
-            String textEditQuestion = question.getText().toString();
-            goToPolls.putExtra("text_edit_question", textEditQuestion);
-            goToPolls.putExtra("text_edit_ids", textEditIds);
-            goToPolls.putExtra("author_name", authorName);
             startActivity(goToPolls);
 
             Intent intent = new Intent(this, MainActivity.class);
@@ -167,11 +223,10 @@ public class pollCreate extends AppCompatActivity
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(1337, builder.build());
             question.setText("");
-        }else{
-            if(isEmpty(question)) {
+        } else {
+            if (isEmpty(question)) {
                 Toast.makeText(pollCreate.this, "You must write a question before posting!", Toast.LENGTH_SHORT).show();
-            }
-            else if(cnt < 2){
+            } else if (cnt < 2) {
                 Toast.makeText(pollCreate.this, "You must add options for voting before posting!", Toast.LENGTH_SHORT).show();
             }
         }
