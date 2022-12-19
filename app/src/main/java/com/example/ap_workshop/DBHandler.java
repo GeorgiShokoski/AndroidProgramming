@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "pollDB";
 
-    private static final int DB_VERSION = 11;
+    private static final int DB_VERSION = 13;
 
     private static final String TABLE_NAME = "registeredUsers";
 

@@ -16,10 +16,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,16 +26,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 public class pollCreate extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -54,6 +48,7 @@ public class pollCreate extends AppCompatActivity
     public optionDBHandler optiondbHandler;
     public pollDBHandler polldbHandler;
     public SQLiteDatabase db;
+    public EditText duration;
 
 
     boolean isEmpty(EditText text) {
@@ -71,6 +66,7 @@ public class pollCreate extends AppCompatActivity
 
         optionBtn = findViewById(R.id.optionBtn);
         question = findViewById(R.id.questionTextEdit);
+        duration = findViewById(R.id.durationHours);
 
         cnt = 0;
         textEditIds = new String[4];
@@ -167,8 +163,10 @@ public class pollCreate extends AppCompatActivity
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTime = dateFormat.format(calendar.getTime());
 
+        String strDuration = duration.getText().toString();
+        int intDuration = Integer.parseInt(strDuration);
         Calendar calendar1 = Calendar.getInstance();
-        calendar1.add(Calendar.HOUR_OF_DAY, 1);  // Add 1 hour
+        calendar1.add(Calendar.HOUR_OF_DAY, intDuration);  // Add 1 hour
         SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTimePlusOneHour = dateFormat1.format(calendar1.getTime());
 
@@ -181,7 +179,7 @@ public class pollCreate extends AppCompatActivity
             cursor.moveToFirst();
             int pollId = cursor.getInt(0);
 
-        for (int j = 0; j < cnt; j++) {
+        for (int j = 0; j <= cnt; j++) {
             if (j == 1){
                 EditText getOption1 = findViewById(R.id.option1);
                 String option1 = getOption1.getText().toString();
@@ -203,6 +201,8 @@ public class pollCreate extends AppCompatActivity
                 optiondbHandler.addNewOption(option4, pollId);
             }
         }
+        cursor.close();
+        db.close();
 
         if ((!isEmpty(question)) && (cnt >= 2)) {
             Intent goToPolls = new Intent(pollCreate.this, adminPanel.class);
